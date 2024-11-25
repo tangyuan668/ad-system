@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.SignMapper">
+    <resultMap id="baseMap" type="sign">
+        <id column="sign_id" property="id"></id>
+        <result property="proposalId" column="proposal_id"></result>
+        <result property="name" column="name"></result>
+        <result property="customerSignature" column="customer_signature"></result>
+        <result property="advertiserSignature" column="advertiser_signature"></result>
+        <result property="date" column="date"></result>
+        <result property="content" column="content"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+    <select id="selectSignPageLikeNameAndProposalId" resultMap="baseMap">
+        SELECT *
+        FROM advertise_sign
+        <where>
+            <!-- 按 request_id 筛选 -->
+            <if test="prid != null and prid != 0">
+                proposal_id = #{prid}
+            </if>
+
+            <!-- 按 status 筛选 -->
+            <if test="name != null and name != ''   ">
+                <!-- 如果 request_id 已经有条件，加上 AND -->
+                <if test="prid != null and prid != 0">
+                    AND
+                </if>
+                name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.SettlementMapper">
+    <resultMap id="baseMap" type="settlement">
+        <id column="settlement_id" property="id"></id>
+        <result property="signId" column="sign_id"></result>
+        <result property="name" column="name"></result>
+        <result property="amout" column="amout"></result>
+        <result property="paymentDate" column="payment_date"></result>
+        <result property="content" column="content"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+
+    <select id="selectSettlementPageLikeNameAndProposalId" resultMap="baseMap">
+        SELECT *
+        FROM advertise_settlement
+        <where>
+            <!-- 按 proposal_id 筛选 -->
+            <if test="siid != null and siid != 0">
+                sign_id = #{siid}
+            </if>
+
+            <!-- 按 name 筛选 -->
+            <if test="name != null and name != ''">
+                <!-- 如果 proposal_id 已经有条件，加上 AND -->
+                <if test="siid != null and siid != 0">
+                    AND
+                </if>
+                name like concat('%', #{name}, '%')
+            </if>
+
+            <!-- 按 status 筛选 -->
+            <if test="status != null and status != '' and status != '全部'">
+                <!-- 如果前面有条件，加上 AND -->
+                <if test="(siid != null and siid !=0 )or (name != null and name != '')">
+                    AND
+                </if>
+                status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllSignIds" resultType="long">
+        SELECT sign_id FROM advertise_settlement
+    </select>
+
+    <update id="updateAmoutBySignId">
+        UPDATE advertise_settlement AS a
+            JOIN advertise_sign AS s ON a.sign_id = s.sign_id
+            JOIN advertise_proposal AS p ON s.proposal_id = p.proposal_id
+            SET a.amout = p.budget
+        WHERE a.sign_id = #{signId}
+    </update>
+
+    <update id="updatePaymentTime">
+    UPDATE advertise_settlement SET payment_date = Null WHERE settlement_id = #{id}
+    </update>
+
+
+
+
+</mapper>

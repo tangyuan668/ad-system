@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.AdvertiserMapper">
+    <resultMap id="baseMap" type="advertiser">
+<id column="id" property="id"></id>
+<result property="username" column="username"></result>
+        <result column="password" property="password"></result>
+        <result property="imagePath" column="image_path"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+<select id="selectByUsernameAndPassword" resultMap="baseMap">
+    select id,username,password,image_path,update_time,create_time
+    from advertiser
+    where username=#{username}
+    and password=#{password}
+
+</select>
+<select id="selectPageLikeUsername" resultMap="baseMap">
+
+    select id,username,password,image_path,update_time,create_time
+    from advertiser
+    where username like concat('%',#{username},'%')
+order by id desc
+
+</select>
+<select id="selectByUsername" resultMap="baseMap">
+
+    select id,username,password,image_path,update_time,create_time
+    from advertiser
+    where username =#{username}
+
+
+</select>
+
+
+
+
+
+</mapper>

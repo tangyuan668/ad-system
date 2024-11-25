@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.AdjustmentMapper">
+    <resultMap id="baseMap" type="adjustment">
+        <id column="adjustment_id" property="id"></id>
+        <result property="name" column="name"></result>
+        <result property="designId" column="design_id"></result>
+        <result property="status" column="status"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+        <result column="content" property="content"></result>
+    </resultMap>
+    <select id="selectAdjustmentByDesignIdAndStatus" resultMap="baseMap">
+        SELECT *
+        FROM advertise_adjustment
+        <where>
+            <!-- 按 request_id 筛选 -->
+            <if test="deid != null and deid != 0">
+                design_id = #{deid}
+            </if>
+
+            <!-- 按 status 筛选 -->
+            <if test="status != null and status != '' and status != '全部'  ">
+                <!-- 如果 request_id 已经有条件，加上 AND -->
+                <if test="deid != null and deid != 0">
+                    AND
+                </if>
+                status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

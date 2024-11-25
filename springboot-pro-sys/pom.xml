@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tjetc</groupId>
+    <artifactId>springboot-pro-sys</artifactId>
+    <version>${revison}</version>
+    <packaging>pom</packaging>
+    <!--    导入springboot版本和框架依赖     -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath></relativePath>
+    </parent>
+<!--    父包含哪些子模块-->
+    <modules>
+        <module>pro-sys-admin</module>
+        <module>pro-sys-service</module>
+        <module>pro-sys-customer</module>
+        <module>pro-sys-advertiser</module>
+        <module>pro-sys-adproducer</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ <jjwt.version>0.12.5</jjwt.version>
+ <mybatis-plus-boot-starter.version>3.5.7</mybatis-plus-boot-starter.version>
+
+<!--   统一管理maven的jar的版本号
+     项目本身的版本号-->
+        <revison>1.0.0.0</revison>
+
+    </properties>
+<dependencyManagement>
+    <dependencies>
+
+        <!--jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus-boot-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tjetc</groupId>
+            <artifactId>pro-sys-service</artifactId>
+            <version>${revison}</version>
+        </dependency>
+    </dependencies>
+
+</dependencyManagement>
+
+
+</project>

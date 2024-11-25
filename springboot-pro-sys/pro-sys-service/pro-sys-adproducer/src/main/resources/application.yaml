@@ -1,0 +1,50 @@
+server:
+  port: 8083
+spring:
+  servlet:
+    multipart:
+      #上传文件的大小配置
+      max-file-size: 1024MB
+      #请求数据大小配置
+      max-request-size: 2048MB
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:F:/temp/
+  datasource:
+    #配置驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/addb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+mybatis-plus:
+  #配置映射文件位置
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  configuration:
+    #mybatis输出执行sql 参数和结果集日志
+     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #将Java实体类属性的驼峰命名规则转换为数据库字段的下划线命名规则
+     map-underscore-to-camel-case: true
+   #查询结果中包含空值的列 在映射的时候 不会映射这个字段
+     call-setters-on-nulls: true
+    #配置指定包下所有类的别名
+  type-aliases-package: com.tjetc.entity #mybatis输出执行sql 参数和结果集日志
+#上传文件的基本路径
+file:
+  basePath: F:/temp
+#token的过期时间（单位是毫秒）
+token:
+  expiration: 10000
+
+#配置日志
+logging:
+  #日志记录文件名称和位置
+  file:
+    name: admin.log
+    #日志级别
+  level:
+    com.tjetc: debug
+
+
+
+
+

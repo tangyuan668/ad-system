@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.ProductionRequestMapper">
+    <resultMap id="baseMap" type="productionrequest">
+        <id column="production_id" property="id"></id>
+        <result column="proposal_id" property="proposalId"></result>
+        <result property="adproducerId" column="adproducer_id"></result>
+        <result property="name" column="name"></result>
+        <result property="content" column="content"></result>
+        <result property="deadTime" column="dead_time"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+
+
+<select id="selectProductionRequestByProductionRequestIdAndNameAndProducerId" resultMap="baseMap">
+
+    SELECT *
+    FROM production_request
+    <where>
+        <!-- 按 prid 筛选 -->
+        <if test="prid != null and prid != 0">
+            proposal_id = #{prid}
+        </if>
+
+        <!-- 按 name 筛选 -->
+        <if test="name != null and name != ''">
+            <!-- 如果前面已经有条件，加上 AND -->
+            <if test="prid != null and prid != 0">
+                AND
+            </if>
+            name like concat('%',#{name},'%')
+        </if>
+
+        <!-- 按 pdid 筛选 -->
+        <if test="pdid != null and pdid != 0">
+            <!-- 如果前面已经有条件，加上 AND -->
+            <if test="prid != null and prid != 0 or (name != null and name != '')">
+                AND
+            </if>
+            adproducer_id = #{pdid}
+        </if>
+    </where>
+    order by production_id desc
+
+
+</select>
+
+
+</mapper>

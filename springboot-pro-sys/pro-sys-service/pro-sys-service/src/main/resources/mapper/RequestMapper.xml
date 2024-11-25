@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.RequestMapper">
+
+    <resultMap id="baseMap" type="request">
+        <id column="request_id" property="id"></id>
+        <result property="customerId" column="customer_id"></result>
+        <result column="title" property="title"></result>
+        <result property="description" column="description"></result>
+        <result property="budget" column="budget"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+    <select id="selectRequestPageLikeTitle" resultMap="baseMap">
+
+        select request_id,customer_id,title,description,budget,update_time,create_time
+        from advertise_request
+        where title like concat('%',#{title},'%')
+        order by request_id desc
+
+
+    </select>
+    <select id="selectByTitle" resultMap="baseMap">
+        select request_id,customer_id,title,description,budget,update_time,create_time
+        from advertise_request
+        where title =#{title}
+
+    </select>
+
+
+
+
+
+</mapper>

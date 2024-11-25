@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.ChannelMapper">
+    <select id="selectChannelPageLikeName" resultMap="ChannelBaseMap">
+
+        select id,name,type,description,update_time,create_time
+        from advertise_channel
+        where name like concat('%',#{name},'%')
+        order by id desc
+
+
+    </select>
+    <resultMap id="ChannelBaseMap" type="channel">
+        <id column="id" property="id"></id>
+        <result property="name" column="name"></result>
+        <result column="description" property="description"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+    <delete id="deleteChannel">
+        delete from advertise_channel where id=#{id}
+
+    </delete>
+<select id="selectByName" resultMap="ChannelBaseMap">
+    select id,name,type,description,update_time,create_time
+    from advertise_channel
+    where name =#{name}
+
+</select>
+
+
+
+
+</mapper>

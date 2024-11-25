@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.dao.ProposalMapper">
+    <resultMap id="baseMap" type="proposal">
+        <id column="proposal_id" property="id"></id>
+        <result property="requestId" column="request_id"></result>
+        <result column="advertise_id" property="advertiserId"></result>
+        <result property="name" column="name"></result>
+        <result property="content" column="content"></result>
+        <result property="budget" column="budget"></result>
+        <result property="status" column="status"></result>
+        <result property="advice" column="advice"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+    <select id="selectProposalByRequestIdAndStatus" resultMap="baseMap">
+        SELECT *
+        FROM advertise_proposal
+        <where>
+            <!-- 按 request_id 筛选 -->
+            <if test="reid != null and reid != 0">
+                request_id = #{reid}
+            </if>
+
+            <!-- 按 status 筛选 -->
+            <if test="status != null and status != '' and status != '全部'  ">
+                <!-- 如果 request_id 已经有条件，加上 AND -->
+                <if test="reid != null and reid != 0">
+                    AND
+                </if>
+                status = #{status}
+            </if>
+        </where>
+    </select>
+
+
+
+
+</mapper>
